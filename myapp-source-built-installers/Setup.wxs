@@ -1,0 +1,39 @@
+﻿<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+  <Product Id="*" Name="electron-quick-start Machine-Wide Installer" Language="1033" Version="!(bind.FileVersion.electron-quick-start.exe)" UpgradeCode="644bc247-be34-535f-8117-84a07c74d504" Manufacturer="Our Code World Inc.">
+
+    <Package Description="#Description" Comments="Comments" InstallerVersion="200" Compressed="yes"/>
+		<Media Id="1" Cabinet="contents.cab" EmbedCab="yes" CompressionLevel="high"/>
+
+    <PropertyRef Id="NETFRAMEWORK45" />
+
+    <Condition Message="This application requires .NET Framework 4.5. Please install the .NET Framework then run this installer again.">
+      <![CDATA[Installed OR NETFRAMEWORK45]]>
+    </Condition>
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="APPLICATIONROOTDIRECTORY" Name="electron-quick-start Installer" />
+      </Directory>
+    </Directory>
+
+    <DirectoryRef Id="APPLICATIONROOTDIRECTORY">
+      <Component Id="electron-quick-start.exe" Guid="8be922e6-1540-5cde-b745-d59fee254b1d">
+        <File Id="electron-quick-start.exe" Name="electron-quick-start.exe" Source="./Setup.exe" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="TARGETDIR">
+      <Component Id="RegistryEntries" Guid="e4d08c86-3a04-5c29-a963-f61a9cba998c">
+        <RegistryKey Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Run">
+          <RegistryValue Type="expandable" Name="electron-quick-startMachineInstaller" Value="%ProgramFiles%\electron-quick-start Installer\electron-quick-start.exe --checkInstall" />
+        </RegistryKey>
+      </Component>
+    </DirectoryRef>
+
+    <Feature Id="MainApplication" Title="Main Application" Level="1">
+      <ComponentRef Id="electron-quick-start.exe" />
+      <ComponentRef Id="RegistryEntries" />
+    </Feature>
+  </Product>
+</Wix>
+
